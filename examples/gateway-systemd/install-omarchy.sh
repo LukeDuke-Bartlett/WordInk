@@ -47,7 +47,11 @@ mode = "remote"
 remote_endpoint = "http://127.0.0.1:8941"
 remote_api_key = "$token"
 EOF
+    # The file already existed, so umask does not tighten it: the bearer token must not sit at 0644.
+    chmod 600 "$VOX"
     echo "install-omarchy: Voxtype now dictates through the gateway ($VOX)"
+  else
+    echo "install-omarchy: token mint produced nothing; mint one by hand with $BIN/wordink-gateway tokens create voxtype" >&2
   fi
 else
   echo "install-omarchy: Voxtype config missing or already has a [whisper] section; wire it by hand (apps/docs/pages/desktop.md, 'Voxtype (Linux)')"
